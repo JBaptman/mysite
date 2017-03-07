@@ -1,0 +1,62 @@
+{% extends "microblog/base.html" %}
+{% block content %}
+
+
+<!-- About the post the user can create -->
+<div class="row white">
+    <div class="addpost">
+        <form method="POST" id="post-form">
+            {% csrf_token %}
+            <div class="fieldWrapper" id="the_post">
+                {{ form.text }}
+            </div>
+            <div id="results"></div>
+            <input type="submit" value="Post" class="tinyybutton">
+        </form>
+    </div>
+</div>
+
+<!-- Feed of posts -->
+<div class="row white">
+    <div class="columns large-12">
+        <ul id="blog">
+            {% for post in post_list %}
+                <li id='post-{{post.pk}}'>
+                    <strong>{{ post.text }}</strong></br> 
+                    <em>{{ post.user }}</em> - 
+                    <span>{{ post.created }}</span> -
+                    <input type ='submit' value = "delete me" class="tinybutton" method="DELETE" id='delete-post-{{post.id}}'>
+                </br></br>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Useful to locate an caught error -->
+<script type="text/javascript">
+window.addEventListener('error', function(e) {
+    console.log(e);
+}, true);
+</script>
+
+
+
+<!-- that would have been used for the translation feature
+<form action="/i18n/setlang" method="post">
+    {% csrf_token %}
+    <select name="language">
+    {% for lang in LANGUAGES %}
+        <option value="{{ lang.0 }}">{{ lang.1 }}</option>
+    {% endfor %}
+    </select> 
+</form> 
+-->
+
+<!-- allows us to use the static files here-->
+{% load staticfiles %}
+
+<script src="/static/scripts/main.js"></script>
+
+
+{% endblock %}
